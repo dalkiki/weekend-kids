@@ -1,0 +1,10 @@
+[project]
+name = "jumali"
+version = "0.1.0"
+description = "주말아이 MVP data collector and static site generator"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
