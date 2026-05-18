@@ -29,6 +29,7 @@ def _page(title: str, body: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)}</title>
   <meta name="description" content="서울 지역의 어린이·가족 대상 무료 문화행사 정보를 날짜와 지역별로 정리합니다.">
+  <meta name="google-site-verification" content="icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI">
   <style>{BASE_CSS}</style>
 </head>
 <body>

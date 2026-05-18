@@ -10,6 +10,8 @@ def test_render_home_uses_clean_information_tone_and_empty_state():
     assert "서울 아이랑 갈만한 무료 행사" in html
     assert "현재 조건에 맞는 행사가 없습니다" in html
     assert "최종 업데이트: 2026-05-17" in html
+    assert 'name="google-site-verification"' in html
+    assert "icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI" in html
 
 
 def test_build_site_writes_index_sources_privacy_robots_and_sitemap(tmp_path: Path):
