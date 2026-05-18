@@ -334,21 +334,5 @@
     "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157793&menuNo=200008",
     "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=b177f0130f4e420da263320b5deb40f8&thumb=Y",
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
-  },
-  {
-    "title": "2026 국토발전전시관 가정의 달 문화행사 [출동! 가족탐험대]",
-    "category": "축제-문화/예술",
-    "district": "중구",
-    "place": "국토발전전시관 관내 및 앞마당",
-    "date_text": "2026-05-16~2026-05-17",
-    "start_date": "2026-05-16",
-    "end_date": "2026-05-17",
-    "target": "누구나",
-    "fee": "",
-    "is_free": true,
-    "is_child_or_family": true,
-    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157835&menuNo=200010",
-    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=107fe24dd67a41af92a6e31357bcba96&thumb=Y",
-    "source": "서울 열린데이터광장 서울시 문화행사 정보"
   }
 ]
