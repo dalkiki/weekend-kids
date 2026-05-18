@@ -3,7 +3,7 @@ set -euo pipefail
 
 API_KEY="${SEOUL_OPENAPI_KEY:-}"
 LIMIT="${JUMALI_EVENT_LIMIT:-200}"
-SITE_URL="${JUMALI_SITE_URL:-${CF_PAGES_URL:-https://jumali-did.pages.dev}}"
+SITE_URL="${JUMALI_SITE_URL:-https://jumali-did.pages.dev}"
 DATA_FILE="data/seoul_cultural_events_mvp.json"
 
 if [[ -n "$API_KEY" ]]; then
