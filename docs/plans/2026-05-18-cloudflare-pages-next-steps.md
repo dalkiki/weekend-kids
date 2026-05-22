@@ -8,7 +8,7 @@
 - 코드 업로드 완료
 - 서울 열린데이터광장 인증키는 GitHub에 올리지 않음
 - 로컬 빌드 성공
-- 로컬 테스트 성공: `12 passed`
+- 로컬 테스트 성공: `21 passed`
 - 실제 데이터 수집 성공: 원본 200건, MVP 후보 22건
 
 ## 내일 태훈님이 할 첫 작업
@@ -37,7 +37,7 @@ Cloudflare Pages에서 GitHub 저장소를 연결한다.
 6. 환경변수 추가
    - `SEOUL_OPENAPI_KEY`: 서울 열린데이터광장 인증키
    - `JUMALI_EVENT_LIMIT`: `200`
-   - `JUMALI_SITE_URL`: `https://jumali.pages.dev`
+   - `JUMALI_SITE_URL`: `https://jumali-did.pages.dev`
 
 7. 배포 실행
    - `Save and Deploy` 또는 `Deploy`

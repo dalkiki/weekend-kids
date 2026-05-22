@@ -4,24 +4,60 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>데이터 출처 - 주말아이</title>
-  <meta name="description" content="서울 지역의 어린이·가족 대상 무료 문화행사 정보를 날짜와 지역별로 정리합니다.">
+  <meta name="description" content="주말아이가 사용하는 서울 문화행사 데이터 출처와 필터링 기준을 안내합니다.">
+  <link rel="canonical" href="https://jumali-did.pages.dev/sources/">
   <meta name="google-site-verification" content="icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI">
-  <style>:root { color-scheme: light; --bg:#f7fafc; --card:#ffffff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; }
+  <style>:root { color-scheme: light; --bg:#f7fafc; --card:#ffffff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --accent-soft:#dbeafe; }
 * { box-sizing: border-box; }
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
-header, main, footer { width:min(960px, 100%); margin:0 auto; padding:24px; }
-.hero { padding-top:48px; }
-.badge { display:inline-block; padding:4px 10px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:14px; }
+a { color:var(--accent); }
+header, main, footer, .topnav { width:min(960px, 100%); margin:0 auto; padding:24px; }
+.topnav { display:flex; flex-wrap:wrap; gap:10px; padding-top:18px; padding-bottom:0; }
+.topnav a { text-decoration:none; font-weight:700; padding:8px 11px; border:1px solid var(--line); border-radius:999px; background:#fff; color:#1f2937; }
+.hero { padding-top:38px; }
+.badge { display:inline-block; padding:4px 10px; border-radius:999px; background:var(--accent-soft); color:#1d4ed8; font-size:14px; font-weight:700; }
 h1 { margin:12px 0 8px; font-size:36px; line-height:1.2; }
+h2 { margin-top:0; }
 .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; margin:16px 0; box-shadow:0 8px 24px rgba(15,23,42,.05); }
 .muted { color:var(--muted); }
-a { color:var(--accent); }
-.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }</style>
+.grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.pill-list { display:flex; flex-wrap:wrap; gap:8px; padding:0; list-style:none; }
+.pill-list li { background:#eef2ff; color:#3730a3; border-radius:999px; padding:5px 10px; font-size:14px; }
+.event-meta { margin:8px 0; }
+.notice { border-left:4px solid var(--accent); padding-left:14px; }
+.detail-list { display:grid; grid-template-columns:minmax(90px, 150px) 1fr; gap:8px 14px; }
+.detail-list dt { font-weight:700; }
+.detail-list dd { margin:0; }
+footer { color:var(--muted); font-size:14px; }
+@media (max-width: 560px) { h1 { font-size:30px; } .detail-list { grid-template-columns:1fr; } }</style>
 </head>
 <body>
+<nav class="topnav" aria-label="주요 메뉴">
+  <a href="/">홈</a>
+  <a href="/seoul/free/">서울 무료 행사</a>
+  <a href="/seoul/this-weekend/">이번 주말</a>
+  <a href="/seoul/indoor/">실내 행사</a>
+  <a href="/about/">소개</a>
+  <a href="/contact/">문의</a>
+</nav>
 
-<header><h1>데이터 출처</h1></header>
-<main class="card"><p>주말아이는 서울 열린데이터광장 “서울시 문화행사 정보”를 1차 데이터 소스로 사용합니다.</p><p>각 행사 정보는 공식 링크를 기준으로 확인해 주세요.</p></main>
+<header class="hero"><span class="badge">데이터 출처</span><h1>데이터 출처와 필터링 기준</h1></header>
+<main>
+  <section class="card">
+    <h2>1차 데이터 출처</h2>
+    <p>주말아이는 서울 열린데이터광장의 “서울시 문화행사 정보”를 1차 데이터 소스로 사용합니다. 행사명, 자치구, 장소, 날짜, 대상, 요금, 공식 링크 등 공개된 항목을 바탕으로 페이지를 생성합니다.</p>
+    <h2>필터링 기준</h2>
+    <p>어린이, 아동, 유아, 초등, 가족 등 아이와 함께 방문할 가능성이 높은 키워드가 있는 행사를 우선 선별합니다. 요금란에 금액이 명확히 표시된 행사는 무료 행사로 단정하지 않습니다.</p>
+    <h2>업데이트 주기</h2>
+    <p>사이트는 자동 수집과 정적 페이지 생성을 전제로 운영됩니다. 데이터가 갱신되면 지난 행사는 제외하고, 새 행사와 변경된 공식 링크를 반영합니다.</p>
+    <h2>주의 사항</h2>
+    <p>공공데이터의 무료 여부, 예약 가능 여부, 대상 연령은 실제 운영기관 공지와 다를 수 있습니다. 주말아이는 탐색을 돕는 정보 사이트이며, 최종 방문 결정 전에는 공식 페이지 확인이 필요합니다.</p>
+  </section>
+</main>
 
+<footer>
+  <p><a href="/sources/">데이터 출처</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/contact/">정보 정정 문의</a></p>
+  <p>주말아이는 공공데이터를 부모가 보기 쉽게 정리하는 정보 서비스입니다. 방문 전 공식 페이지에서 일정·요금·예약 가능 여부를 다시 확인해 주세요.</p>
+</footer>
 </body>
 </html>
