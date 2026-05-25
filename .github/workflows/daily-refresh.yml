@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install test dependencies
+        run: python -m pip install pytest
+
       - name: Build site from Seoul OpenAPI data
         env:
           SEOUL_OPENAPI_KEY: ${{ secrets.SEOUL_OPENAPI_KEY }}
