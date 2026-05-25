@@ -7,7 +7,7 @@ import shutil
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 
 DEFAULT_SITE_URL = "https://jumali-did.pages.dev"
 GOOGLE_VERIFICATION_TOKEN = "icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI"
@@ -60,7 +60,25 @@ def _site_base(site_url: str) -> str:
     return site_url.rstrip("/") + "/"
 
 
+def _escape_public_url(value: str) -> str:
+    """Return an ASCII-safe public URL for canonical and sitemap entries.
+
+    Browsers can open Korean URL paths directly, but Search Console sitemap
+    parsing is more reliable when <loc> values are percent-encoded URLs.
+    Keep % safe so already-escaped paths are not double encoded.
+    """
+
+    parsed = urlsplit(value)
+    path = quote(parsed.path or "/", safe="/%:@!$&'()*+,;=-._~")
+    query = quote(parsed.query, safe="%/:?@!$&'()*+,;=-._~")
+    return urlunsplit((parsed.scheme, parsed.netloc, path, query, parsed.fragment))
+
+
 def _absolute_url(site_url: str, path: str) -> str:
+    return _escape_public_url(urljoin(_site_base(site_url), path.lstrip("/")))
+
+
+def _raw_absolute_url(site_url: str, path: str) -> str:
     return urljoin(_site_base(site_url), path.lstrip("/"))
 
 
@@ -437,6 +455,10 @@ def _render_sitemap(site_url: str, paths: list[str], lastmod: str) -> str:
 """
 
 
+def _render_sitemap_txt(site_url: str, paths: list[str]) -> str:
+    return "\n".join(_absolute_url(site_url, path) for path in paths) + "\n"
+
+
 def _assert_safe_output_dir(out_path: Path) -> None:
     resolved = out_path.resolve()
     cwd = Path.cwd().resolve()
@@ -560,10 +582,14 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         generated_paths.append(path)
 
     (out_path / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nSitemap: {site_url.rstrip('/')}/sitemap.xml\n",
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"Sitemap: {_raw_absolute_url(site_url, '/sitemap.xml')}\n"
+        f"Sitemap: {_raw_absolute_url(site_url, '/sitemap.txt')}\n",
         encoding="utf-8",
     )
     (out_path / "sitemap.xml").write_text(_render_sitemap(site_url, generated_paths, updated_at), encoding="utf-8")
+    (out_path / "sitemap.txt").write_text(_render_sitemap_txt(site_url, generated_paths), encoding="utf-8")
 
 
 def main() -> int:

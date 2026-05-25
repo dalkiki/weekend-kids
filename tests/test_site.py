@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from jumali.site import build_site, render_home
@@ -67,6 +68,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
         "privacy/index.html",
         "robots.txt",
         "sitemap.xml",
+        "sitemap.txt",
     ]
     for rel_path in expected_files:
         assert (tmp_path / rel_path).exists(), rel_path
@@ -85,6 +87,24 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "https://jumali.pages.dev/contact/" in sitemap
     assert "https://jumali.pages.dev/events/" in sitemap
     assert "<lastmod>2026-05-22</lastmod>" in sitemap
+
+    sitemap_root = ET.fromstring(sitemap)
+    namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    locs = [node.text or "" for node in sitemap_root.findall(".//sm:loc", namespace)]
+    assert locs
+    assert all(loc.isascii() for loc in locs)
+    assert all(" " not in loc for loc in locs)
+    assert any("%EA%B0%95%EB%B6%81%EA%B5%AC" in loc for loc in locs)
+    assert "강북구" not in sitemap
+
+    sitemap_txt = (tmp_path / "sitemap.txt").read_text(encoding="utf-8")
+    assert "https://jumali.pages.dev/seoul/free/" in sitemap_txt
+    assert "%EA%B0%95%EB%B6%81%EA%B5%AC" in sitemap_txt
+    assert "강북구" not in sitemap_txt
+
+    robots = (tmp_path / "robots.txt").read_text(encoding="utf-8")
+    assert "Sitemap: https://jumali.pages.dev/sitemap.xml" in robots
+    assert "Sitemap: https://jumali.pages.dev/sitemap.txt" in robots
 
 
 def test_trust_pages_are_substantial_and_not_test_placeholders(tmp_path: Path):
