@@ -1,3 +1,11 @@
+/https://:site/sitemap-index.xml /sitemap-index.xml 301
+/http://:site/sitemap-index.xml /sitemap-index.xml 301
+/https://:site/sitemap-basic.xml /sitemap-basic.xml 301
+/http://:site/sitemap-basic.xml /sitemap-basic.xml 301
+/https://:site/sitemap.xml /sitemap.xml 301
+/http://:site/sitemap.xml /sitemap.xml 301
+/https://:site/sitemap.txt /sitemap.txt 301
+/http://:site/sitemap.txt /sitemap.txt 301
 /sitemap.xml/ /sitemap.xml 301
 /sitemap /sitemap.xml 301
 /sitemap.XML /sitemap.xml 301

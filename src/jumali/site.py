@@ -635,6 +635,18 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         encoding="utf-8",
     )
     (out_path / "_redirects").write_text(
+        # Search Console URL-prefix properties sometimes receive a full URL pasted
+        # into the sitemap field. That turns into a malformed path such as
+        # /https://example.pages.dev/sitemap.xml. Serve a real sitemap there too
+        # instead of letting the static HTML fallback return 200 text/html.
+        "/https://:site/sitemap-index.xml /sitemap-index.xml 301\n"
+        "/http://:site/sitemap-index.xml /sitemap-index.xml 301\n"
+        "/https://:site/sitemap-basic.xml /sitemap-basic.xml 301\n"
+        "/http://:site/sitemap-basic.xml /sitemap-basic.xml 301\n"
+        "/https://:site/sitemap.xml /sitemap.xml 301\n"
+        "/http://:site/sitemap.xml /sitemap.xml 301\n"
+        "/https://:site/sitemap.txt /sitemap.txt 301\n"
+        "/http://:site/sitemap.txt /sitemap.txt 301\n"
         "/sitemap.xml/ /sitemap.xml 301\n"
         "/sitemap /sitemap.xml 301\n"
         "/sitemap.XML /sitemap.xml 301\n"
