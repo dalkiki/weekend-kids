@@ -459,6 +459,21 @@ def _render_sitemap_txt(site_url: str, paths: list[str]) -> str:
     return "\n".join(_absolute_url(site_url, path) for path in paths) + "\n"
 
 
+def _render_sitemap_index(site_url: str, sitemap_paths: list[str], lastmod: str) -> str:
+    sitemaps = "\n".join(
+        "  <sitemap>"
+        f"<loc>{html.escape(_absolute_url(site_url, path))}</loc>"
+        f"<lastmod>{html.escape(lastmod)}</lastmod>"
+        "</sitemap>"
+        for path in sitemap_paths
+    )
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{sitemaps}
+</sitemapindex>
+"""
+
+
 def _assert_safe_output_dir(out_path: Path) -> None:
     resolved = out_path.resolve()
     cwd = Path.cwd().resolve()
@@ -581,13 +596,57 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         _write_page(out_path, path, content)
         generated_paths.append(path)
 
+    basic_sitemap_paths = [
+        "/",
+        free_path,
+        weekend_path,
+        indoor_path,
+        "/about/",
+        "/contact/",
+        "/sources/",
+        "/privacy/",
+    ]
+
     (out_path / "robots.txt").write_text(
         "User-agent: *\n"
         "Allow: /\n"
+        f"Sitemap: {_raw_absolute_url(site_url, '/sitemap-index.xml')}\n"
         f"Sitemap: {_raw_absolute_url(site_url, '/sitemap.xml')}\n"
+        f"Sitemap: {_raw_absolute_url(site_url, '/sitemap-basic.xml')}\n"
         f"Sitemap: {_raw_absolute_url(site_url, '/sitemap.txt')}\n",
         encoding="utf-8",
     )
+    (out_path / "_headers").write_text(
+        "/sitemap.xml\n"
+        "  Content-Type: application/xml; charset=utf-8\n"
+        "  X-Robots-Tag: all\n"
+        "/sitemap-index.xml\n"
+        "  Content-Type: application/xml; charset=utf-8\n"
+        "  X-Robots-Tag: all\n"
+        "/sitemap-basic.xml\n"
+        "  Content-Type: application/xml; charset=utf-8\n"
+        "  X-Robots-Tag: all\n"
+        "/sitemap.txt\n"
+        "  Content-Type: text/plain; charset=utf-8\n"
+        "  X-Robots-Tag: all\n"
+        "/robots.txt\n"
+        "  Content-Type: text/plain; charset=utf-8\n"
+        "  X-Robots-Tag: all\n",
+        encoding="utf-8",
+    )
+    (out_path / "_redirects").write_text(
+        "/sitemap.xml/ /sitemap.xml 301\n"
+        "/sitemap /sitemap.xml 301\n"
+        "/sitemap.XML /sitemap.xml 301\n"
+        "/SITEMAP.XML /sitemap.xml 301\n"
+        "/robots.txt/ /robots.txt 301\n",
+        encoding="utf-8",
+    )
+    (out_path / "sitemap-index.xml").write_text(
+        _render_sitemap_index(site_url, ["/sitemap-basic.xml", "/sitemap.xml"], updated_at),
+        encoding="utf-8",
+    )
+    (out_path / "sitemap-basic.xml").write_text(_render_sitemap(site_url, basic_sitemap_paths, updated_at), encoding="utf-8")
     (out_path / "sitemap.xml").write_text(_render_sitemap(site_url, generated_paths, updated_at), encoding="utf-8")
     (out_path / "sitemap.txt").write_text(_render_sitemap_txt(site_url, generated_paths), encoding="utf-8")
 

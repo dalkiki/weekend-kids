@@ -67,6 +67,10 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
         "sources/index.html",
         "privacy/index.html",
         "robots.txt",
+        "_headers",
+        "_redirects",
+        "sitemap-index.xml",
+        "sitemap-basic.xml",
         "sitemap.xml",
         "sitemap.txt",
     ]
@@ -103,8 +107,30 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "강북구" not in sitemap_txt
 
     robots = (tmp_path / "robots.txt").read_text(encoding="utf-8")
+    assert "Sitemap: https://jumali.pages.dev/sitemap-index.xml" in robots
     assert "Sitemap: https://jumali.pages.dev/sitemap.xml" in robots
+    assert "Sitemap: https://jumali.pages.dev/sitemap-basic.xml" in robots
     assert "Sitemap: https://jumali.pages.dev/sitemap.txt" in robots
+
+    sitemap_index = (tmp_path / "sitemap-index.xml").read_text(encoding="utf-8")
+    index_root = ET.fromstring(sitemap_index)
+    index_locs = [node.text or "" for node in index_root.findall(".//sm:loc", namespace)]
+    assert index_locs == [
+        "https://jumali.pages.dev/sitemap-basic.xml",
+        "https://jumali.pages.dev/sitemap.xml",
+    ]
+
+    sitemap_basic = (tmp_path / "sitemap-basic.xml").read_text(encoding="utf-8")
+    assert "https://jumali.pages.dev/seoul/free/" in sitemap_basic
+    assert "https://jumali.pages.dev/events/" not in sitemap_basic
+
+    redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
+    assert "/sitemap.xml/ /sitemap.xml 301" in redirects
+    assert "/sitemap /sitemap.xml 301" in redirects
+
+    headers = (tmp_path / "_headers").read_text(encoding="utf-8")
+    assert "/sitemap.xml" in headers
+    assert "Content-Type: application/xml; charset=utf-8" in headers
 
 
 def test_trust_pages_are_substantial_and_not_test_placeholders(tmp_path: Path):
