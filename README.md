@@ -33,6 +33,15 @@ python -m http.server 8765 --directory public
 python -m pytest tests -q
 ```
 
+## 자동 갱신
+
+GitHub Actions의 `Daily 주말아이 refresh` 워크플로우가 매일 07:10 KST에 실행됩니다.
+
+- 서울 열린데이터광장 API로 행사 데이터를 다시 수집합니다.
+- 정적 사이트를 재생성합니다.
+- 테스트를 통과하고 `data/` 또는 `public/` 변경이 있으면 자동 커밋/푸시합니다.
+- 필요한 GitHub secret: `SEOUL_OPENAPI_KEY`
+
 ## Cloudflare Pages 설정
 
 Cloudflare Pages에서 GitHub 저장소를 연결한 뒤 아래처럼 설정합니다.
