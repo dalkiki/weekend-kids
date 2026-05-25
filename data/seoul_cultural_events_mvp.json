@@ -192,22 +192,6 @@
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
-    "title": "[구산동도서관마을] 「SF영화 속 우주과학 빼먹기」 루카 저자와의 만남 : 과학적 상상력을 넓히는 시간",
-    "category": "교육/체험",
-    "district": "은평구",
-    "place": "구산동도서관마을 3층 힐링캠프",
-    "date_text": "2026-05-30~2026-05-30",
-    "start_date": "2026-05-30",
-    "end_date": "2026-05-30",
-    "target": "청소년 및 성인 (*초등학생은 성인 보호자 동석 시 참여 가능)",
-    "fee": "",
-    "is_free": true,
-    "is_child_or_family": true,
-    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157771&menuNo=200011",
-    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=1b69a993edef4df6ae0c7e3e827820aa&thumb=Y",
-    "source": "서울 열린데이터광장 서울시 문화행사 정보"
-  },
-  {
     "title": "[성동문화재단] 성동구립도서관 [우리동네 북(BOOK)돋움] 강연 프로그램",
     "category": "교육/체험",
     "district": "성동구",
@@ -221,6 +205,22 @@
     "is_child_or_family": true,
     "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157724&menuNo=200011",
     "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=87926bd11c9c4342bf9300845ef09bd6&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
+    "title": "[구산동도서관마을] 「SF영화 속 우주과학 빼먹기」 루카 저자와의 만남 : 과학적 상상력을 넓히는 시간",
+    "category": "교육/체험",
+    "district": "은평구",
+    "place": "구산동도서관마을 3층 힐링캠프",
+    "date_text": "2026-05-30~2026-05-30",
+    "start_date": "2026-05-30",
+    "end_date": "2026-05-30",
+    "target": "청소년 및 성인 (*초등학생은 성인 보호자 동석 시 참여 가능)",
+    "fee": "",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157771&menuNo=200011",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=1b69a993edef4df6ae0c7e3e827820aa&thumb=Y",
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
