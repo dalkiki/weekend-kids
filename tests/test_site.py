@@ -135,11 +135,11 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "https://jumali-did.pages.dev/events/" not in sitemap_basic
 
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
-    assert "/https://:site/gsc-sitemap.xml /gsc-sitemap.xml 301" in redirects
-    assert "/https://:site/sitemap.xml /sitemap.xml 301" in redirects
-    assert "/https://:site/sitemap-index.xml /sitemap-index.xml 301" in redirects
-    assert "/https://:site/sitemap-basic.xml /sitemap-basic.xml 301" in redirects
-    assert "/https://:site/sitemap.txt /sitemap.txt 301" in redirects
+    assert "/https:/*/gsc-sitemap.xml /gsc-sitemap.xml 301" in redirects
+    assert "/https:/*/sitemap.xml /sitemap.xml 301" in redirects
+    assert "/https:/*/sitemap-index.xml /sitemap-index.xml 301" in redirects
+    assert "/https:/*/sitemap-basic.xml /sitemap-basic.xml 301" in redirects
+    assert "/https:/*/sitemap.txt /sitemap.txt 301" in redirects
     assert "/sitemap.xml/ /sitemap.xml 301" in redirects
     assert "/sitemap /sitemap.xml 301" in redirects
 
