@@ -69,6 +69,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
         "robots.txt",
         "_headers",
         "_redirects",
+        "gsc-sitemap.xml",
         "sitemap-index.xml",
         "sitemap-basic.xml",
         "sitemap.xml",
@@ -107,6 +108,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "강북구" not in sitemap_txt
 
     robots = (tmp_path / "robots.txt").read_text(encoding="utf-8")
+    assert "Sitemap: https://jumali-did.pages.dev/gsc-sitemap.xml" in robots
     assert "Sitemap: https://jumali-did.pages.dev/sitemap-index.xml" in robots
     assert "Sitemap: https://jumali-did.pages.dev/sitemap.xml" in robots
     assert "Sitemap: https://jumali-did.pages.dev/sitemap-basic.xml" in robots
@@ -116,15 +118,24 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     index_root = ET.fromstring(sitemap_index)
     index_locs = [node.text or "" for node in index_root.findall(".//sm:loc", namespace)]
     assert index_locs == [
+        "https://jumali-did.pages.dev/gsc-sitemap.xml",
         "https://jumali-did.pages.dev/sitemap-basic.xml",
         "https://jumali-did.pages.dev/sitemap.xml",
     ]
+
+    gsc_sitemap = (tmp_path / "gsc-sitemap.xml").read_text(encoding="utf-8")
+    gsc_root = ET.fromstring(gsc_sitemap)
+    gsc_locs = [node.text or "" for node in gsc_root.findall(".//sm:loc", namespace)]
+    assert "https://jumali-did.pages.dev/" in gsc_locs
+    assert "https://jumali-did.pages.dev/seoul/free/" in gsc_locs
+    assert all("events/" not in loc for loc in gsc_locs)
 
     sitemap_basic = (tmp_path / "sitemap-basic.xml").read_text(encoding="utf-8")
     assert "https://jumali-did.pages.dev/seoul/free/" in sitemap_basic
     assert "https://jumali-did.pages.dev/events/" not in sitemap_basic
 
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
+    assert "/https://:site/gsc-sitemap.xml /gsc-sitemap.xml 301" in redirects
     assert "/https://:site/sitemap.xml /sitemap.xml 301" in redirects
     assert "/https://:site/sitemap-index.xml /sitemap-index.xml 301" in redirects
     assert "/https://:site/sitemap-basic.xml /sitemap-basic.xml 301" in redirects
@@ -133,6 +144,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "/sitemap /sitemap.xml 301" in redirects
 
     headers = (tmp_path / "_headers").read_text(encoding="utf-8")
+    assert "/gsc-sitemap.xml" in headers
     assert "/sitemap.xml" in headers
     assert "Content-Type: application/xml; charset=utf-8" in headers
 

@@ -606,10 +606,14 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         "/sources/",
         "/privacy/",
     ]
+    # Fresh, minimal sitemap for Search Console retry when previously submitted
+    # sitemap paths are stuck in a temporary "Couldn't fetch" state.
+    gsc_sitemap_paths = list(basic_sitemap_paths)
 
     (out_path / "robots.txt").write_text(
         "User-agent: *\n"
         "Allow: /\n"
+        f"Sitemap: {_raw_absolute_url(site_url, '/gsc-sitemap.xml')}\n"
         f"Sitemap: {_raw_absolute_url(site_url, '/sitemap-index.xml')}\n"
         f"Sitemap: {_raw_absolute_url(site_url, '/sitemap.xml')}\n"
         f"Sitemap: {_raw_absolute_url(site_url, '/sitemap-basic.xml')}\n"
@@ -618,6 +622,9 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
     )
     (out_path / "_headers").write_text(
         "/sitemap.xml\n"
+        "  Content-Type: application/xml; charset=utf-8\n"
+        "  X-Robots-Tag: all\n"
+        "/gsc-sitemap.xml\n"
         "  Content-Type: application/xml; charset=utf-8\n"
         "  X-Robots-Tag: all\n"
         "/sitemap-index.xml\n"
@@ -639,6 +646,8 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         # into the sitemap field. That turns into a malformed path such as
         # /https://example.pages.dev/sitemap.xml. Serve a real sitemap there too
         # instead of letting the static HTML fallback return 200 text/html.
+        "/https://:site/gsc-sitemap.xml /gsc-sitemap.xml 301\n"
+        "/http://:site/gsc-sitemap.xml /gsc-sitemap.xml 301\n"
         "/https://:site/sitemap-index.xml /sitemap-index.xml 301\n"
         "/http://:site/sitemap-index.xml /sitemap-index.xml 301\n"
         "/https://:site/sitemap-basic.xml /sitemap-basic.xml 301\n"
@@ -647,6 +656,8 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         "/http://:site/sitemap.xml /sitemap.xml 301\n"
         "/https://:site/sitemap.txt /sitemap.txt 301\n"
         "/http://:site/sitemap.txt /sitemap.txt 301\n"
+        "/gsc-sitemap.xml/ /gsc-sitemap.xml 301\n"
+        "/gsc-sitemap /gsc-sitemap.xml 301\n"
         "/sitemap.xml/ /sitemap.xml 301\n"
         "/sitemap /sitemap.xml 301\n"
         "/sitemap.XML /sitemap.xml 301\n"
@@ -655,9 +666,10 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         encoding="utf-8",
     )
     (out_path / "sitemap-index.xml").write_text(
-        _render_sitemap_index(site_url, ["/sitemap-basic.xml", "/sitemap.xml"], updated_at),
+        _render_sitemap_index(site_url, ["/gsc-sitemap.xml", "/sitemap-basic.xml", "/sitemap.xml"], updated_at),
         encoding="utf-8",
     )
+    (out_path / "gsc-sitemap.xml").write_text(_render_sitemap(site_url, gsc_sitemap_paths, updated_at), encoding="utf-8")
     (out_path / "sitemap-basic.xml").write_text(_render_sitemap(site_url, basic_sitemap_paths, updated_at), encoding="utf-8")
     (out_path / "sitemap.xml").write_text(_render_sitemap(site_url, generated_paths, updated_at), encoding="utf-8")
     (out_path / "sitemap.txt").write_text(_render_sitemap_txt(site_url, generated_paths), encoding="utf-8")

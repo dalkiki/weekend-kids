@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Sitemap: https://jumali-did.pages.dev/gsc-sitemap.xml
 Sitemap: https://jumali-did.pages.dev/sitemap-index.xml
 Sitemap: https://jumali-did.pages.dev/sitemap.xml
 Sitemap: https://jumali-did.pages.dev/sitemap-basic.xml
