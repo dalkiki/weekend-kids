@@ -42,7 +42,7 @@ def test_render_home_uses_clean_information_tone_and_empty_state():
     assert "현재 조건에 맞는 행사가 없습니다" in html
     assert "최종 업데이트: 2026-05-17" in html
     assert 'name="google-site-verification"' in html
-    assert "icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI" in html
+    assert "LijPvePAqz82GY0V_DW5AjF9R9e1R89j3-eOWJ_R138" in html
     assert "MVP 테스트" not in html
     assert "테스트 사이트" not in html
     assert 'rel="canonical" href="https://jumalikids.com/"' in html
