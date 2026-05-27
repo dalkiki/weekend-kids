@@ -32,7 +32,7 @@ jobs:
         env:
           SEOUL_OPENAPI_KEY: ${{ secrets.SEOUL_OPENAPI_KEY }}
           JUMALI_EVENT_LIMIT: "200"
-          JUMALI_SITE_URL: "https://jumali-did.pages.dev"
+          JUMALI_SITE_URL: "https://jumalikids.com"
         run: bash scripts/build.sh
 
       - name: Run tests

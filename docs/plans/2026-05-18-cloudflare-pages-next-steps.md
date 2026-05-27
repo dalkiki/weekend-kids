@@ -37,7 +37,7 @@ Cloudflare Pages에서 GitHub 저장소를 연결한다.
 6. 환경변수 추가
    - `SEOUL_OPENAPI_KEY`: 서울 열린데이터광장 인증키
    - `JUMALI_EVENT_LIMIT`: `200`
-   - `JUMALI_SITE_URL`: `https://jumali-did.pages.dev`
+   - `JUMALI_SITE_URL`: `https://jumalikids.com`
 
 7. 배포 실행
    - `Save and Deploy` 또는 `Deploy`

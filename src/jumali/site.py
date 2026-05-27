@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 
-DEFAULT_SITE_URL = "https://jumali-did.pages.dev"
+DEFAULT_SITE_URL = "https://jumalikids.com"
 GOOGLE_VERIFICATION_TOKEN = "icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI"
 BUILD_MARKER = ".jumali-build-output"
 DEFAULT_DESCRIPTION = "서울 지역의 어린이·가족 대상 무료 문화행사 정보를 날짜와 지역별로 정리합니다."

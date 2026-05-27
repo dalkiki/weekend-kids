@@ -35,7 +35,7 @@ SAMPLE_EVENTS = [
 
 
 def test_render_home_uses_clean_information_tone_and_empty_state():
-    html = render_home(events=[], updated_at="2026-05-17", site_url="https://jumali-did.pages.dev")
+    html = render_home(events=[], updated_at="2026-05-17", site_url="https://jumalikids.com")
 
     assert "주말아이" in html
     assert "서울 아이랑 갈만한 무료 행사" in html
@@ -45,7 +45,7 @@ def test_render_home_uses_clean_information_tone_and_empty_state():
     assert "icS3zruN3knQ69QHjGpy_Dpg83hsS0t90mRT2WaWouI" in html
     assert "MVP 테스트" not in html
     assert "테스트 사이트" not in html
-    assert 'rel="canonical" href="https://jumali-did.pages.dev/"' in html
+    assert 'rel="canonical" href="https://jumalikids.com/"' in html
     assert 'href="/seoul/free/"' in html
     assert 'href="/seoul/this-weekend/"' in html
     assert 'href="/about/"' in html
@@ -53,7 +53,7 @@ def test_render_home_uses_clean_information_tone_and_empty_state():
 
 
 def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_path: Path):
-    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     expected_files = [
         "index.html",
@@ -86,11 +86,11 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert 'rel="canonical"' in first_event_html
 
     sitemap = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
-    assert "https://jumali-did.pages.dev/seoul/free/" in sitemap
-    assert "https://jumali-did.pages.dev/seoul/this-weekend/" in sitemap
-    assert "https://jumali-did.pages.dev/about/" in sitemap
-    assert "https://jumali-did.pages.dev/contact/" in sitemap
-    assert "https://jumali-did.pages.dev/events/" in sitemap
+    assert "https://jumalikids.com/seoul/free/" in sitemap
+    assert "https://jumalikids.com/seoul/this-weekend/" in sitemap
+    assert "https://jumalikids.com/about/" in sitemap
+    assert "https://jumalikids.com/contact/" in sitemap
+    assert "https://jumalikids.com/events/" in sitemap
     assert "<lastmod>2026-05-22</lastmod>" in sitemap
 
     sitemap_root = ET.fromstring(sitemap)
@@ -103,36 +103,36 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "강북구" not in sitemap
 
     sitemap_txt = (tmp_path / "sitemap.txt").read_text(encoding="utf-8")
-    assert "https://jumali-did.pages.dev/seoul/free/" in sitemap_txt
+    assert "https://jumalikids.com/seoul/free/" in sitemap_txt
     assert "%EA%B0%95%EB%B6%81%EA%B5%AC" in sitemap_txt
     assert "강북구" not in sitemap_txt
 
     robots = (tmp_path / "robots.txt").read_text(encoding="utf-8")
-    assert "Sitemap: https://jumali-did.pages.dev/gsc-sitemap.xml" in robots
-    assert "Sitemap: https://jumali-did.pages.dev/sitemap-index.xml" in robots
-    assert "Sitemap: https://jumali-did.pages.dev/sitemap.xml" in robots
-    assert "Sitemap: https://jumali-did.pages.dev/sitemap-basic.xml" in robots
-    assert "Sitemap: https://jumali-did.pages.dev/sitemap.txt" in robots
+    assert "Sitemap: https://jumalikids.com/gsc-sitemap.xml" in robots
+    assert "Sitemap: https://jumalikids.com/sitemap-index.xml" in robots
+    assert "Sitemap: https://jumalikids.com/sitemap.xml" in robots
+    assert "Sitemap: https://jumalikids.com/sitemap-basic.xml" in robots
+    assert "Sitemap: https://jumalikids.com/sitemap.txt" in robots
 
     sitemap_index = (tmp_path / "sitemap-index.xml").read_text(encoding="utf-8")
     index_root = ET.fromstring(sitemap_index)
     index_locs = [node.text or "" for node in index_root.findall(".//sm:loc", namespace)]
     assert index_locs == [
-        "https://jumali-did.pages.dev/gsc-sitemap.xml",
-        "https://jumali-did.pages.dev/sitemap-basic.xml",
-        "https://jumali-did.pages.dev/sitemap.xml",
+        "https://jumalikids.com/gsc-sitemap.xml",
+        "https://jumalikids.com/sitemap-basic.xml",
+        "https://jumalikids.com/sitemap.xml",
     ]
 
     gsc_sitemap = (tmp_path / "gsc-sitemap.xml").read_text(encoding="utf-8")
     gsc_root = ET.fromstring(gsc_sitemap)
     gsc_locs = [node.text or "" for node in gsc_root.findall(".//sm:loc", namespace)]
-    assert "https://jumali-did.pages.dev/" in gsc_locs
-    assert "https://jumali-did.pages.dev/seoul/free/" in gsc_locs
+    assert "https://jumalikids.com/" in gsc_locs
+    assert "https://jumalikids.com/seoul/free/" in gsc_locs
     assert all("events/" not in loc for loc in gsc_locs)
 
     sitemap_basic = (tmp_path / "sitemap-basic.xml").read_text(encoding="utf-8")
-    assert "https://jumali-did.pages.dev/seoul/free/" in sitemap_basic
-    assert "https://jumali-did.pages.dev/events/" not in sitemap_basic
+    assert "https://jumalikids.com/seoul/free/" in sitemap_basic
+    assert "https://jumalikids.com/events/" not in sitemap_basic
 
     redirects = (tmp_path / "_redirects").read_text(encoding="utf-8")
     assert "/https:/*/gsc-sitemap.xml /gsc-sitemap.xml 301" in redirects
@@ -150,7 +150,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
 
 
 def test_trust_pages_are_substantial_and_not_test_placeholders(tmp_path: Path):
-    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     sources = (tmp_path / "sources" / "index.html").read_text(encoding="utf-8")
     privacy = (tmp_path / "privacy" / "index.html").read_text(encoding="utf-8")
@@ -172,7 +172,7 @@ def test_build_site_removes_stale_output_pages(tmp_path: Path):
     stale.parent.mkdir(parents=True)
     stale.write_text("stale", encoding="utf-8")
 
-    build_site(events=SAMPLE_EVENTS[:1], out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=SAMPLE_EVENTS[:1], out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     assert not stale.exists()
     assert (tmp_path / ".jumali-build-output").exists()
@@ -181,7 +181,7 @@ def test_build_site_removes_stale_output_pages(tmp_path: Path):
 def test_event_urls_are_unique_when_title_date_and_district_match(tmp_path: Path):
     duplicated = [dict(SAMPLE_EVENTS[0], place="1층 강의실"), dict(SAMPLE_EVENTS[0], place="2층 강의실")]
 
-    build_site(events=duplicated, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=duplicated, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     event_pages = sorted((tmp_path / "events").glob("*/index.html"))
     assert len(event_pages) == 2
@@ -191,7 +191,7 @@ def test_event_urls_are_unique_when_title_date_and_district_match(tmp_path: Path
 def test_unsafe_official_url_schemes_are_not_rendered(tmp_path: Path):
     unsafe = [dict(SAMPLE_EVENTS[0], official_url="javascript:alert(1)")]
 
-    build_site(events=unsafe, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=unsafe, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     all_html = "\n".join(path.read_text(encoding="utf-8") for path in tmp_path.rglob("*.html"))
     assert "javascript:alert" not in all_html
@@ -202,7 +202,7 @@ def test_build_site_refuses_to_clear_project_root(tmp_path: Path, monkeypatch):
     (tmp_path / "pyproject.toml").write_text("[project]\nname='unsafe'\n", encoding="utf-8")
 
     try:
-        build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+        build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
     except ValueError as exc:
         assert "Unsafe output directory" in str(exc)
     else:
@@ -216,7 +216,7 @@ def test_build_site_refuses_to_delete_unmarked_existing_directory(tmp_path: Path
     keep.write_text("do not delete", encoding="utf-8")
 
     try:
-        build_site(events=SAMPLE_EVENTS, out_dir=existing, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+        build_site(events=SAMPLE_EVENTS, out_dir=existing, updated_at="2026-05-22", site_url="https://jumalikids.com")
     except ValueError as exc:
         assert "Unsafe output directory" in str(exc)
     else:
@@ -233,7 +233,7 @@ def test_build_site_allows_marked_existing_output_directory(tmp_path: Path):
     stale.parent.mkdir(parents=True)
     stale.write_text("stale", encoding="utf-8")
 
-    build_site(events=SAMPLE_EVENTS[:1], out_dir=out_dir, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=SAMPLE_EVENTS[:1], out_dir=out_dir, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     assert not stale.exists()
     assert (out_dir / ".jumali-build-output").exists()
@@ -244,7 +244,7 @@ def test_input_detail_path_cannot_escape_output_directory(tmp_path: Path):
     escaped = tmp_path / "escaped" / "index.html"
     malicious = [dict(SAMPLE_EVENTS[0], _detail_path="/../escaped/")]
 
-    build_site(events=malicious, out_dir=out_dir, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=malicious, out_dir=out_dir, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     assert not escaped.exists()
     assert len(list((out_dir / "events").glob("*/index.html"))) == 1
@@ -265,7 +265,7 @@ def test_event_slugs_stay_stable_when_input_order_changes(tmp_path: Path):
     first_out = tmp_path / "first"
     second_out = tmp_path / "second"
 
-    build_site(events=SAMPLE_EVENTS, out_dir=first_out, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
-    build_site(events=[extra, *SAMPLE_EVENTS], out_dir=second_out, updated_at="2026-05-22", site_url="https://jumali-did.pages.dev")
+    build_site(events=SAMPLE_EVENTS, out_dir=first_out, updated_at="2026-05-22", site_url="https://jumalikids.com")
+    build_site(events=[extra, *SAMPLE_EVENTS], out_dir=second_out, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
     assert _detail_slug_by_title(first_out) == _detail_slug_by_title(second_out)
