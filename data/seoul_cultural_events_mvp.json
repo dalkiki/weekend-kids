@@ -80,6 +80,22 @@
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
+    "title": "[서울문화예술교육센터 은평] 몸으로 예술놀이(오전반)",
+    "category": "교육/체험",
+    "district": "은평구",
+    "place": "서울문화예술교육센터 은평 댄스스튜디오1",
+    "date_text": "2026-06-13~2026-07-04",
+    "start_date": "2026-06-13",
+    "end_date": "2026-07-04",
+    "target": "초등 2~4학년 (2016~2018년생)",
+    "fee": "",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=158058&menuNo=200011",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=51b4bb7d46ee4cd28f758a3ad35a9c74&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
     "title": "[서울문화예술교육센터 강북] 워크숍 'play, play' [말하고 싶은 '탈'_2기]",
     "category": "교육/체험",
     "district": "강북구",
@@ -141,6 +157,22 @@
     "is_child_or_family": true,
     "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=158011&menuNo=200008",
     "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=3694a9df80c5464793a31fb381ec9de4&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
+    "title": "[서울도서관] 월간 북돋움 [나도 부모는 처음이야, 육아를 놀이처럼 하는 법!]",
+    "category": "교육/체험",
+    "district": "중구",
+    "place": "온라인(Zoom)",
+    "date_text": "2026-06-10~2026-06-10",
+    "start_date": "2026-06-10",
+    "end_date": "2026-06-10",
+    "target": "임산부 또는 영유아 양육자 누구나",
+    "fee": "",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=158062&menuNo=200011",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=663f746a5c8c4c079ab01ab12f202600&thumb=Y",
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
@@ -288,22 +320,6 @@
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
-    "title": "[성동구립도서관] 5월 영어스토리텔링 수업",
-    "category": "교육/체험",
-    "district": "성동구",
-    "place": "성동구립도서관",
-    "date_text": "2026-05-31~2026-05-31",
-    "start_date": "2026-05-31",
-    "end_date": "2026-05-31",
-    "target": "어린이",
-    "fee": "",
-    "is_free": true,
-    "is_child_or_family": true,
-    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157557&menuNo=200011",
-    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=a1533fe9090f45e5b48f80e7a0c90edc&thumb=Y",
-    "source": "서울 열린데이터광장 서울시 문화행사 정보"
-  },
-  {
     "title": "[서울도서관] 2026 움직이는 서울형책방 2회 : 여행마을",
     "category": "교육/체험",
     "district": "종로구",
@@ -317,6 +333,22 @@
     "is_child_or_family": true,
     "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157931&menuNo=200011",
     "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=44b4a5502a4c4237a6f7275d73b053f0&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
+    "title": "[성동구립도서관] 5월 영어스토리텔링 수업",
+    "category": "교육/체험",
+    "district": "성동구",
+    "place": "성동구립도서관",
+    "date_text": "2026-05-31~2026-05-31",
+    "start_date": "2026-05-31",
+    "end_date": "2026-05-31",
+    "target": "어린이",
+    "fee": "",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157557&menuNo=200011",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=a1533fe9090f45e5b48f80e7a0c90edc&thumb=Y",
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
@@ -336,22 +368,6 @@
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
-    "title": "세워진 기억들: 시대의 얼굴이 된 공공미술",
-    "category": "교육/체험",
-    "district": "종로구",
-    "place": "아르코 미술관 3층 세미나실 (서울시 종로구 동숭길 3)",
-    "date_text": "2026-05-30~2026-05-30",
-    "start_date": "2026-05-30",
-    "end_date": "2026-05-30",
-    "target": "성인, 청소년 어린이는 성인 동반에 한해 가능",
-    "fee": "무료",
-    "is_free": true,
-    "is_child_or_family": true,
-    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157982&menuNo=200011",
-    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=c33c03a4cdf141319e674672dfdfd7df&thumb=Y",
-    "source": "서울 열린데이터광장 서울시 문화행사 정보"
-  },
-  {
     "title": "[구산동도서관마을] 「SF영화 속 우주과학 빼먹기」 루카 저자와의 만남 : 과학적 상상력을 넓히는 시간",
     "category": "교육/체험",
     "district": "은평구",
@@ -365,6 +381,38 @@
     "is_child_or_family": true,
     "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157771&menuNo=200011",
     "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=1b69a993edef4df6ae0c7e3e827820aa&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
+    "title": "[이마트 투모로우 어린이 환경 축제] 내일을 만드는 오늘",
+    "category": "축제-기타",
+    "district": "마포구",
+    "place": "서울함 공원 잔디밭",
+    "date_text": "2026-05-30~2026-05-30",
+    "start_date": "2026-05-30",
+    "end_date": "2026-05-30",
+    "target": "어린이, 청소년",
+    "fee": "",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=158041&menuNo=200010",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=1032fa6b5079422081ff0f1ae09f8c00&thumb=Y",
+    "source": "서울 열린데이터광장 서울시 문화행사 정보"
+  },
+  {
+    "title": "세워진 기억들: 시대의 얼굴이 된 공공미술",
+    "category": "교육/체험",
+    "district": "종로구",
+    "place": "아르코 미술관 3층 세미나실 (서울시 종로구 동숭길 3)",
+    "date_text": "2026-05-30~2026-05-30",
+    "start_date": "2026-05-30",
+    "end_date": "2026-05-30",
+    "target": "성인, 청소년 어린이는 성인 동반에 한해 가능",
+    "fee": "무료",
+    "is_free": true,
+    "is_child_or_family": true,
+    "official_url": "https://culture.seoul.go.kr/culture/culture/cultureEvent/view.do?cultcode=157982&menuNo=200011",
+    "image_url": "https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=c33c03a4cdf141319e674672dfdfd7df&thumb=Y",
     "source": "서울 열린데이터광장 서울시 문화행사 정보"
   },
   {
