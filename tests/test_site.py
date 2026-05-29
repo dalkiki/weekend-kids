@@ -166,6 +166,62 @@ def test_trust_pages_are_substantial_and_not_test_placeholders(tmp_path: Path):
     assert "MVP 테스트" not in sources + privacy + contact
 
 
+def test_build_site_writes_substantial_parent_guide_pages_and_links_them(tmp_path: Path):
+    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
+
+    expected_guides = {
+        "guides/free-kids-events-seoul/index.html": "서울 아이랑 무료 행사 찾는 법",
+        "guides/this-weekend-kids-plan/index.html": "이번 주말 아이랑 갈 곳 고르는 법",
+        "guides/rainy-day-indoor-kids-seoul/index.html": "비 오는 날 서울 실내 행사 고르는 법",
+        "guides/age-target-check/index.html": "유아·초등 대상 연령 확인법",
+        "guides/reservation-fee-checklist/index.html": "무료 행사 예약·요금 체크리스트",
+    }
+    all_guide_html = []
+    for rel_path, heading in expected_guides.items():
+        guide = (tmp_path / rel_path).read_text(encoding="utf-8")
+        all_guide_html.append(guide)
+        assert heading in guide
+        assert "방문 전 체크리스트" in guide
+        assert "공식 페이지" in guide
+        assert 'rel="canonical" href="https://jumalikids.com/' in guide
+        assert len(guide) > 1600
+        assert "MVP 테스트" not in guide
+        assert "테스트 사이트" not in guide
+
+    home = (tmp_path / "index.html").read_text(encoding="utf-8")
+    free = (tmp_path / "seoul" / "free" / "index.html").read_text(encoding="utf-8")
+    weekend = (tmp_path / "seoul" / "this-weekend" / "index.html").read_text(encoding="utf-8")
+    indoor = (tmp_path / "seoul" / "indoor" / "index.html").read_text(encoding="utf-8")
+    detail = next((tmp_path / "events").glob("*/index.html")).read_text(encoding="utf-8")
+
+    assert "부모용 행사 선택 가이드" in home
+    assert 'href="/guides/free-kids-events-seoul/"' in home
+    assert 'href="/guides/this-weekend-kids-plan/"' in weekend
+    assert 'href="/guides/rainy-day-indoor-kids-seoul/"' in indoor
+    assert 'href="/guides/reservation-fee-checklist/"' in free
+    assert "방문 전 3분 체크" in detail
+    assert 'href="/guides/age-target-check/"' in detail
+    assert 'href="/guides/reservation-fee-checklist/"' in detail
+
+    gsc_sitemap = (tmp_path / "gsc-sitemap.xml").read_text(encoding="utf-8")
+    sitemap = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+    assert "https://jumalikids.com/guides/free-kids-events-seoul/" in gsc_sitemap
+    assert "https://jumalikids.com/guides/reservation-fee-checklist/" in sitemap
+    assert "서울 아이랑 무료 행사" in "\n".join(all_guide_html)
+
+
+def test_generated_html_does_not_contain_whitespace_only_lines(tmp_path: Path):
+    build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
+
+    offenders = []
+    for html_file in tmp_path.rglob("*.html"):
+        for line_no, line in enumerate(html_file.read_text(encoding="utf-8").splitlines(), start=1):
+            if line and not line.strip():
+                offenders.append(f"{html_file.relative_to(tmp_path)}:{line_no}")
+
+    assert offenders == []
+
+
 def test_build_site_removes_stale_output_pages(tmp_path: Path):
     (tmp_path / ".jumali-build-output").write_text("generated\n", encoding="utf-8")
     stale = tmp_path / "events" / "old-event" / "index.html"

@@ -55,6 +55,87 @@ INDOOR_KEYWORDS = (
     "워크숍",
 )
 
+GUIDE_PAGES: list[dict[str, Any]] = [
+    {
+        "path": "/guides/free-kids-events-seoul/",
+        "title": "서울 아이랑 무료 행사 찾는 법 - 주말아이",
+        "heading": "서울 아이랑 무료 행사 찾는 법",
+        "description": "서울에서 아이와 무료로 갈 만한 행사 정보를 고를 때 날짜, 비용, 대상, 예약 조건을 확인하는 방법입니다.",
+        "intro": "무료 행사라고 표시돼도 예약비, 재료비, 보호자 비용이 따로 붙는 경우가 있습니다. 주말아이는 공공데이터의 행사 목록을 보여주되, 실제 방문 결정은 공식 페이지 확인을 기준으로 안내합니다.",
+        "sections": [
+            ("1. 무료 표시를 그대로 믿지 않기", "요금란에 무료가 적혀 있어도 체험 재료비, 전시 특별권, 보호자 입장료가 따로 있을 수 있습니다. 금액 숫자나 유료 안내가 함께 보이면 무료 행사로 단정하지 말고 공식 페이지의 상세 공지를 확인하는 편이 안전합니다."),
+            ("2. 아이가 참여할 수 있는 대상인지 보기", "어린이, 가족, 유아, 초등 같은 표현이 있어도 실제 모집 대상은 학년, 나이, 보호자 동반 여부로 나뉩니다. 형제자매가 함께 가는 일정이라면 가장 어린 아이와 가장 큰 아이가 모두 참여 가능한지 먼저 확인해 주세요."),
+            ("3. 이동 시간까지 포함해 고르기", "무료 행사는 비용 부담이 적은 대신 예약 마감이 빠르거나 대기 시간이 길 수 있습니다. 집에서 행사장까지의 이동 시간, 주차 가능 여부, 식사 장소를 함께 보면 주말 일정이 훨씬 덜 흔들립니다."),
+        ],
+        "checklist": ["요금란에 숫자 금액이 없는지 확인", "보호자 동반·재료비 조건 확인", "행사 날짜와 운영 시간이 우리 일정과 맞는지 확인", "공식 페이지 예약 상태 확인"],
+        "links": [("서울 무료 행사 보기", "/seoul/free/"), ("예약·요금 체크리스트", "/guides/reservation-fee-checklist/"), ("대상 연령 확인법", "/guides/age-target-check/")],
+    },
+    {
+        "path": "/guides/this-weekend-kids-plan/",
+        "title": "이번 주말 아이랑 갈 곳 고르는 법 - 주말아이",
+        "heading": "이번 주말 아이랑 갈 곳 고르는 법",
+        "description": "토요일과 일요일에 아이와 갈 만한 서울 무료 행사 후보를 빠르게 줄이는 부모용 선택 기준입니다.",
+        "intro": "이번 주말 일정은 시간이 짧아서 후보를 많이 보는 것보다 조건이 맞지 않는 행사를 빨리 빼는 것이 중요합니다. 날짜, 예약, 이동, 날씨를 먼저 확인하면 아이 컨디션에 맞는 선택이 쉬워집니다.",
+        "sections": [
+            ("1. 날짜가 겹치는 행사만 남기기", "행사 기간이 길어도 실제 운영 요일이 주말이 아닐 수 있습니다. 토요일·일요일 운영 시간, 회차별 시작 시간, 입장 마감 시간을 먼저 보고 가능한 후보만 남겨 주세요."),
+            ("2. 예약 마감 여부를 먼저 보기", "무료 체험과 교육 프로그램은 선착순 또는 사전 신청 방식이 많습니다. 공식 페이지에서 접수 중인지 확인하고, 현장 접수라면 도착 권장 시간과 대기 가능성을 같이 봐야 합니다."),
+            ("3. 오전·오후 한 가지만 정하기", "아이와 움직이는 일정은 한나절 단위가 안정적입니다. 오전 행사는 점심 장소를, 오후 행사는 귀가 시간과 저녁 피로도를 함께 생각하면 무리한 이동을 줄일 수 있습니다."),
+        ],
+        "checklist": ["이번 토요일·일요일 실제 운영 여부 확인", "회차 시작·마감 시간 확인", "예약 또는 현장 접수 방식 확인", "대중교통·주차·식사 동선 확인"],
+        "links": [("이번 주말 행사 보기", "/seoul/this-weekend/"), ("비 오는 날 실내 행사", "/guides/rainy-day-indoor-kids-seoul/"), ("예약·요금 체크리스트", "/guides/reservation-fee-checklist/")],
+    },
+    {
+        "path": "/guides/rainy-day-indoor-kids-seoul/",
+        "title": "비 오는 날 서울 실내 행사 고르는 법 - 주말아이",
+        "heading": "비 오는 날 서울 실내 행사 고르는 법",
+        "description": "비, 폭염, 한파가 있을 때 서울에서 아이와 실내 행사를 고를 때 확인할 기준입니다.",
+        "intro": "날씨가 좋지 않은 날에는 실내라는 단어만 보고 움직이면 입장 대기, 젖은 우산 보관, 이동 동선 때문에 더 힘들 수 있습니다. 장소 유형과 예약 상태를 함께 확인하는 것이 좋습니다.",
+        "sections": [
+            ("1. 실내 가능성이 높은 장소부터 보기", "도서관, 박물관, 미술관, 문화센터, 교육실처럼 장소가 분명한 행사는 날씨 영향을 덜 받습니다. 다만 야외 부스가 섞인 축제형 행사는 일부 프로그램이 취소될 수 있어 공식 페이지 공지가 필요합니다."),
+            ("2. 대기 공간과 이동 동선 확인하기", "비 오는 날에는 입장 줄, 우산 보관, 유모차 이동이 변수가 됩니다. 역에서 가까운지, 건물 안에서 대기할 수 있는지, 보호자 휴식 공간이 있는지 확인하면 아이 컨디션 관리에 도움이 됩니다."),
+            ("3. 취소·변경 공지를 마지막에 다시 보기", "날씨가 나쁜 날에는 당일 오전 공지가 바뀌기도 합니다. 출발 전 공식 페이지 또는 운영기관 알림에서 휴관, 시간 변경, 예약 취소 안내가 없는지 한 번 더 확인해 주세요."),
+        ],
+        "checklist": ["장소가 도서관·박물관·센터 등 실내인지 확인", "야외 프로그램 포함 여부 확인", "역·주차장부터 행사장까지 동선 확인", "출발 전 공식 페이지 변경 공지 확인"],
+        "links": [("실내 행사 보기", "/seoul/indoor/"), ("이번 주말 행사 보기", "/seoul/this-weekend/"), ("무료 행사 찾는 법", "/guides/free-kids-events-seoul/")],
+    },
+    {
+        "path": "/guides/age-target-check/",
+        "title": "유아·초등 대상 연령 확인법 - 주말아이",
+        "heading": "유아·초등 대상 연령 확인법",
+        "description": "아이 행사에서 유아, 초등, 가족, 보호자 동반 같은 대상 표현을 실제 참여 가능 여부로 확인하는 방법입니다.",
+        "intro": "공공데이터의 대상란은 짧게 적힌 경우가 많습니다. 유아, 초등, 가족이라는 표현만으로 판단하기보다 실제 모집 학년, 생년월일 기준, 보호자 동반 조건을 공식 페이지에서 확인해야 합니다.",
+        "sections": [
+            ("1. 유아와 미취학 표현 구분하기", "유아 대상 행사는 만 나이, 미취학, 6~7세처럼 기준이 다릅니다. '미취학 입장 불가'처럼 반대 의미의 문구도 있으니 대상 키워드만 보고 가능한 행사로 판단하지 않는 것이 안전합니다."),
+            ("2. 초등 저학년·고학년 나누어 보기", "초등학생 대상이라도 만들기 체험은 저학년, 토론·코딩·역사 수업은 고학년 중심으로 운영되는 경우가 있습니다. 아이가 혼자 참여하는지, 보호자가 함께 들어가야 하는지도 확인해 주세요."),
+            ("3. 가족 대상의 실제 의미 확인하기", "가족 대상은 누구나 입장 가능한 전시일 수도 있고, 부모 1명과 아이 1명이 한 팀으로 신청하는 프로그램일 수도 있습니다. 형제 동반 가능 여부와 추가 인원 비용을 함께 봐야 합니다."),
+        ],
+        "checklist": ["만 나이·학년·생년월일 기준 확인", "보호자 동반 필수 여부 확인", "형제자매 동반 가능 여부 확인", "대상 제외 문구가 없는지 공식 페이지 확인"],
+        "links": [("서울 무료 행사 보기", "/seoul/free/"), ("예약·요금 체크리스트", "/guides/reservation-fee-checklist/"), ("이번 주말 행사 보기", "/seoul/this-weekend/")],
+    },
+    {
+        "path": "/guides/reservation-fee-checklist/",
+        "title": "무료 행사 예약·요금 체크리스트 - 주말아이",
+        "heading": "무료 행사 예약·요금 체크리스트",
+        "description": "무료로 보이는 어린이 행사에서 예약, 재료비, 보호자 비용, 취소 조건을 방문 전에 확인하는 체크리스트입니다.",
+        "intro": "아이와 가는 무료 행사는 당일 변수가 작아야 만족도가 높습니다. 예약 성공 여부, 실제 비용, 준비물, 취소 규정을 미리 보면 현장에서 당황할 가능성이 줄어듭니다.",
+        "sections": [
+            ("1. 예약 방식과 확정 문자를 확인하기", "온라인 접수, 전화 예약, 현장 선착순은 준비가 다릅니다. 예약 완료 화면이나 확정 문자가 있어야 참여 가능한 프로그램도 있으니 공식 페이지의 접수 안내를 끝까지 확인해 주세요."),
+            ("2. 무료 범위를 나누어 보기", "입장만 무료이고 체험 재료비가 있는 경우, 아이는 무료지만 보호자는 입장권이 필요한 경우가 있습니다. 요금란뿐 아니라 상세 안내, 유의사항, 예약 페이지의 결제 문구를 같이 보는 것이 좋습니다."),
+            ("3. 준비물과 취소 조건 확인하기", "미술·과학·체험 수업은 편한 복장, 개인 물통, 필기도구 같은 준비물이 있을 수 있습니다. 갑자기 못 가게 될 때 취소해야 하는 시점도 확인하면 다음 이용자에게도 도움이 됩니다."),
+        ],
+        "checklist": ["예약 완료 또는 접수 가능 상태 확인", "재료비·보호자 비용·주차비 확인", "준비물과 복장 안내 확인", "취소·노쇼 규정 확인"],
+        "links": [("서울 무료 행사 보기", "/seoul/free/"), ("대상 연령 확인법", "/guides/age-target-check/"), ("비 오는 날 실내 행사", "/guides/rainy-day-indoor-kids-seoul/")],
+    },
+]
+
+
+def _guide_paths() -> list[str]:
+    return [str(guide["path"]) for guide in GUIDE_PAGES]
+
+
+def _guide_by_path(path: str) -> dict[str, Any]:
+    return next(guide for guide in GUIDE_PAGES if guide["path"] == path)
+
 
 def _site_base(site_url: str) -> str:
     return site_url.rstrip("/") + "/"
@@ -185,6 +266,7 @@ def _nav() -> str:
   <a href="/seoul/free/">서울 무료 행사</a>
   <a href="/seoul/this-weekend/">이번 주말</a>
   <a href="/seoul/indoor/">실내 행사</a>
+  <a href="/guides/free-kids-events-seoul/">가이드</a>
   <a href="/about/">소개</a>
   <a href="/contact/">문의</a>
 </nav>"""
@@ -192,7 +274,7 @@ def _nav() -> str:
 
 def _footer() -> str:
     return """<footer>
-  <p><a href="/sources/">데이터 출처</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/contact/">정보 정정 문의</a></p>
+  <p><a href="/sources/">데이터 출처</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/contact/">정보 정정 문의</a> · <a href="/guides/reservation-fee-checklist/">방문 전 체크리스트</a></p>
   <p>주말아이는 공공데이터를 부모가 보기 쉽게 정리하는 정보 서비스입니다. 방문 전 공식 페이지에서 일정·요금·예약 가능 여부를 다시 확인해 주세요.</p>
 </footer>"""
 
@@ -226,6 +308,71 @@ def _page(
 """
 
 
+def _render_related_links(links: list[tuple[str, str]]) -> str:
+    items = "\n".join(
+        f'<li><a href="{html.escape(path, quote=True)}">{html.escape(label)}</a></li>'
+        for label, path in links
+    )
+    return f'<ul class="pill-list">\n{items}\n</ul>'
+
+
+def _render_guide_teasers(paths: list[str] | None = None) -> str:
+    selected_paths = paths or _guide_paths()
+    selected_guides = [_guide_by_path(path) for path in selected_paths]
+    cards = "\n".join(
+        f"""<article class="card">
+  <h3><a href="{html.escape(str(guide['path']), quote=True)}">{html.escape(str(guide['heading']))}</a></h3>
+  <p>{html.escape(str(guide['description']))}</p>
+</article>"""
+        for guide in selected_guides
+    )
+    return f"""<section class="card">
+  <h2>부모용 행사 선택 가이드</h2>
+  <p>행사 목록만으로 판단하기 어려운 예약, 요금, 대상 연령, 날씨 변수를 짧은 기준으로 정리했습니다.</p>
+  <div class="grid">{cards}</div>
+</section>"""
+
+
+def _render_guide_page(guide: dict[str, Any], site_url: str) -> str:
+    sections_html = "\n".join(
+        f"""<section class="card">
+  <h2>{html.escape(title)}</h2>
+  <p>{html.escape(text)}</p>
+</section>"""
+        for title, text in guide["sections"]
+    )
+    checklist = "\n".join(f"<li>{html.escape(item)}</li>" for item in guide["checklist"])
+    related = _render_related_links(guide["links"])
+    body = f"""
+<header class="hero">
+  <span class="badge">부모용 행사 선택 가이드</span>
+  <h1>{html.escape(str(guide['heading']))}</h1>
+  <p>{html.escape(str(guide['intro']))}</p>
+</header>
+<main>
+  <section class="card notice">
+    <p>주말아이는 서울 열린데이터광장 등 공공데이터를 보기 쉽게 정리하지만, 일정·요금·예약 가능 여부의 최종 기준은 운영기관 공식 페이지입니다.</p>
+  </section>
+  {sections_html}
+  <section class="card">
+    <h2>방문 전 체크리스트</h2>
+    <ul>{checklist}</ul>
+  </section>
+  <section class="card">
+    <h2>함께 보면 좋은 페이지</h2>
+    {related}
+  </section>
+</main>
+"""
+    return _page(
+        str(guide["title"]),
+        body,
+        site_url=site_url,
+        path=str(guide["path"]),
+        description=str(guide["description"]),
+    )
+
+
 def render_home(events: list[dict[str, Any]], updated_at: str | None = None, site_url: str = DEFAULT_SITE_URL) -> str:
     updated_at = updated_at or date.today().isoformat()
     enriched_events = _ensure_enriched(events)
@@ -236,6 +383,13 @@ def render_home(events: list[dict[str, Any]], updated_at: str | None = None, sit
   <h2>현재 조건에 맞는 행사가 없습니다</h2>
   <p class="muted">무료·어린이/가족 조건에 맞는 서울 문화행사가 확인되면 이곳에 자동으로 표시됩니다.</p>
 </section>"""
+    guide_teasers = _render_guide_teasers(
+        [
+            "/guides/free-kids-events-seoul/",
+            "/guides/this-weekend-kids-plan/",
+            "/guides/rainy-day-indoor-kids-seoul/",
+        ]
+    )
     body = f"""
 <header class="hero">
   <span class="badge">서울 어린이·가족 무료 문화행사</span>
@@ -260,6 +414,7 @@ def render_home(events: list[dict[str, Any]], updated_at: str | None = None, sit
     <article class="card"><h2><a href="/seoul/this-weekend/">이번 주말 행사</a></h2><p>이번 토요일·일요일에 겹치는 행사를 빠르게 볼 수 있습니다.</p></article>
     <article class="card"><h2><a href="/seoul/indoor/">비오는 날 실내 행사</a></h2><p>도서관, 박물관, 센터 등 실내 가능성이 높은 행사를 따로 모았습니다.</p></article>
   </section>
+  {guide_teasers}
   <section>
     <h2>서울 아이랑 갈만한 무료 행사</h2>
     {cards}
@@ -305,8 +460,10 @@ def _render_event_list_page(
     updated_at: str,
     site_url: str,
     path: str,
+    guide_paths: list[str] | None = None,
 ) -> str:
     cards = "\n".join(_render_event_card(event) for event in events) if events else _render_empty_state("조건에 맞는 행사 없음")
+    related_guides = f"{_render_guide_teasers(guide_paths)}\n" if guide_paths else ""
     body = f"""
 <header class="hero">
   <span class="badge">서울 행사 모음</span>
@@ -318,7 +475,7 @@ def _render_event_list_page(
   <section class="card notice">
     <p>공공데이터의 요금·예약 정보는 실제 현장 상황과 다를 수 있습니다. 방문 전 공식 페이지에서 반드시 최신 정보를 확인해 주세요.</p>
   </section>
-  <section>
+{related_guides}  <section>
     {cards}
   </section>
 </main>
@@ -345,6 +502,13 @@ def _render_event_detail(event: dict[str, Any], *, updated_at: str, site_url: st
         f"<dt>{html.escape(label)}</dt><dd>{html.escape(value) if value else '확인 필요'}</dd>"
         for label, value in details
     )
+    visit_check_links = _render_related_links(
+        [
+            ("대상 연령 확인법", "/guides/age-target-check/"),
+            ("예약·요금 체크리스트", "/guides/reservation-fee-checklist/"),
+            ("비 오는 날 실내 행사 고르는 법", "/guides/rainy-day-indoor-kids-seoul/"),
+        ]
+    )
     body = f"""
 <header class="hero">
   <span class="badge">행사 상세</span>
@@ -358,8 +522,9 @@ def _render_event_detail(event: dict[str, Any], *, updated_at: str, site_url: st
     {official_link}
   </section>
   <section class="card notice">
-    <h2>방문 전 체크</h2>
+    <h2>방문 전 3분 체크</h2>
     <p>일정, 비용, 예약 가능 여부, 대상 연령은 변경될 수 있습니다. 아이와 방문하기 전 공식 페이지 또는 운영기관 안내를 다시 확인해 주세요.</p>
+    {visit_check_links}
   </section>
 </main>
 """
@@ -523,6 +688,11 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
             updated_at=updated_at,
             site_url=site_url,
             path=free_path,
+            guide_paths=[
+                "/guides/free-kids-events-seoul/",
+                "/guides/reservation-fee-checklist/",
+                "/guides/age-target-check/",
+            ],
         ),
     )
     generated_paths.append(free_path)
@@ -540,6 +710,11 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
             updated_at=updated_at,
             site_url=site_url,
             path=weekend_path,
+            guide_paths=[
+                "/guides/this-weekend-kids-plan/",
+                "/guides/reservation-fee-checklist/",
+                "/guides/rainy-day-indoor-kids-seoul/",
+            ],
         ),
     )
     generated_paths.append(weekend_path)
@@ -557,6 +732,11 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
             updated_at=updated_at,
             site_url=site_url,
             path=indoor_path,
+            guide_paths=[
+                "/guides/rainy-day-indoor-kids-seoul/",
+                "/guides/this-weekend-kids-plan/",
+                "/guides/free-kids-events-seoul/",
+            ],
         ),
     )
     generated_paths.append(indoor_path)
@@ -586,6 +766,11 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         _write_page(out_path, event_path, _render_event_detail(event, updated_at=updated_at, site_url=site_url))
         generated_paths.append(event_path)
 
+    for guide in GUIDE_PAGES:
+        guide_path = str(guide["path"])
+        _write_page(out_path, guide_path, _render_guide_page(guide, site_url))
+        generated_paths.append(guide_path)
+
     trust_pages = {
         "/about/": _render_about(site_url),
         "/contact/": _render_contact(site_url),
@@ -601,6 +786,7 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
         free_path,
         weekend_path,
         indoor_path,
+        *_guide_paths(),
         "/about/",
         "/contact/",
         "/sources/",
