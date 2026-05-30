@@ -52,6 +52,37 @@ def test_render_home_uses_clean_information_tone_and_empty_state():
     assert 'href="/contact/"' in html
 
 
+def test_render_home_prioritizes_strong_relevance_and_shows_quality_badges():
+    weak_adult = dict(
+        SAMPLE_EVENTS[0],
+        title="주말N 인문산책",
+        target="청소년 이상 성인 누구나",
+        relevance_score=15,
+        relevance_bucket="weak",
+    )
+    broad = dict(
+        SAMPLE_EVENTS[0],
+        title="서울 열린 거리 공연",
+        target="누구나",
+        relevance_score=45,
+        relevance_bucket="broad",
+    )
+    strong = dict(
+        SAMPLE_EVENTS[0],
+        title="초등 가족 과학 체험",
+        target="초등학생 가족",
+        relevance_score=90,
+        relevance_bucket="strong",
+    )
+
+    html = render_home(events=[weak_adult, broad, strong], updated_at="2026-05-17", site_url="https://jumalikids.com")
+
+    assert html.index("초등 가족 과학 체험") < html.index("서울 열린 거리 공연") < html.index("주말N 인문산책")
+    assert "아이랑 핵심" in html
+    assert "가족 가능성" in html
+    assert "대상 확인 필요" in html
+
+
 def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_path: Path):
     build_site(events=SAMPLE_EVENTS, out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
 
@@ -66,6 +97,7 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
         "contact/index.html",
         "sources/index.html",
         "privacy/index.html",
+        "404.html",
         "robots.txt",
         "_headers",
         "_redirects",
@@ -83,6 +115,9 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     first_event_html = event_pages[0].read_text(encoding="utf-8")
     assert "공식 페이지" in first_event_html
     assert "방문 전" in first_event_html
+    assert "예약 방식" in first_event_html
+    assert "요금 확인" in first_event_html
+    assert "대상 연령" in first_event_html
     assert 'rel="canonical"' in first_event_html
 
     sitemap = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
@@ -92,6 +127,12 @@ def test_build_site_writes_planned_landing_detail_trust_pages_and_sitemap(tmp_pa
     assert "https://jumalikids.com/contact/" in sitemap
     assert "https://jumalikids.com/events/" in sitemap
     assert "<lastmod>2026-05-22</lastmod>" in sitemap
+    assert "404.html" not in sitemap
+
+    not_found = (tmp_path / "404.html").read_text(encoding="utf-8")
+    assert "페이지를 찾을 수 없습니다" in not_found
+    assert 'name="robots" content="noindex"' in not_found
+    assert 'href="/seoul/free/"' in not_found
 
     sitemap_root = ET.fromstring(sitemap)
     namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
@@ -158,12 +199,37 @@ def test_trust_pages_are_substantial_and_not_test_placeholders(tmp_path: Path):
 
     assert "업데이트 주기" in sources
     assert "필터링 기준" in sources
+    assert "오분류 정정 원칙" in sources
     assert len(sources) > 900
     assert "개인정보를 직접 수집하지 않습니다" in privacy
     assert "광고" in privacy
     assert len(privacy) > 700
     assert "정보 정정" in contact
+    assert "공개 문의 채널" in contact
+    assert "mailto:thk8544@gmail.com" in contact
     assert "MVP 테스트" not in sources + privacy + contact
+
+
+def test_event_detail_uses_conservative_fee_age_and_reservation_cautions(tmp_path: Path):
+    mixed_fee_event = dict(
+        SAMPLE_EVENTS[0],
+        title="청소년 이상 성인 인문산책",
+        target="청소년 이상 성인 누구나",
+        fee="입장 무료, 체험 재료비 5,000원",
+        fee_status="paid_or_mixed",
+        fee_notice="무료 표시와 비용 문구가 함께 있어 무료로 단정하지 않습니다.",
+        relevance_bucket="weak",
+        relevance_score=15,
+    )
+
+    build_site(events=[mixed_fee_event], out_dir=tmp_path, updated_at="2026-05-22", site_url="https://jumalikids.com")
+
+    detail = next((tmp_path / "events").glob("*/index.html")).read_text(encoding="utf-8")
+    assert "무료로 단정하지 않습니다" in detail
+    assert "예약 방식" in detail
+    assert "공식 페이지에서 접수" in detail
+    assert "대상 연령" in detail
+    assert "어린이·가족 대상인지 확인 필요" in detail
 
 
 def test_build_site_writes_substantial_parent_guide_pages_and_links_them(tmp_path: Path):

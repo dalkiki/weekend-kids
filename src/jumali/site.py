@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 
+from .transform import assess_event_relevance, classify_fee
+
 DEFAULT_SITE_URL = "https://jumalikids.com"
 GOOGLE_VERIFICATION_TOKEN = "LijPvePAqz82GY0V_DW5AjF9R9e1R89j3-eOWJ_R138"
 BUILD_MARKER = ".jumali-build-output"
@@ -191,11 +193,39 @@ def _event_slug(event: dict[str, Any]) -> str:
     return f"{readable}-{digest}"
 
 
+def _augment_event_quality(event: dict[str, Any]) -> dict[str, Any]:
+    copied = dict(event)
+    if "fee_status" not in copied or "fee_notice" not in copied:
+        fee = classify_fee(copied)
+        copied["fee_status"] = fee["status"]
+        copied["fee_notice"] = fee["notice"]
+        copied["is_free"] = fee["is_free"]
+    if "relevance_score" not in copied or "relevance_bucket" not in copied:
+        relevance = assess_event_relevance(copied)
+        copied["relevance_score"] = relevance["score"]
+        copied["relevance_bucket"] = relevance["bucket"]
+        copied["relevance_reasons"] = relevance["reasons"]
+    return copied
+
+
+def _event_sort_key(event: dict[str, Any]) -> tuple[int, int, str, str]:
+    bucket_rank = {"strong": 2, "broad": 1, "weak": 0}.get(str(event.get("relevance_bucket", "weak")), 0)
+    try:
+        score = int(event.get("relevance_score", 0))
+    except (TypeError, ValueError):
+        score = 0
+    return (bucket_rank, score, str(event.get("start_date", "")), str(event.get("title", "")))
+
+
+def _sort_events_for_display(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(events, key=_event_sort_key, reverse=True)
+
+
 def _enrich_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     enriched: list[dict[str, Any]] = []
     seen: dict[str, int] = {}
     for event in events:
-        copied = dict(event)
+        copied = _augment_event_quality(event)
         copied["official_url"] = _safe_external_url(copied.get("official_url"))
         base_slug = _event_slug(copied)
         occurrence = seen.get(base_slug, 0) + 1
@@ -286,8 +316,10 @@ def _page(
     site_url: str = DEFAULT_SITE_URL,
     path: str = "/",
     description: str = DEFAULT_DESCRIPTION,
+    extra_head: str = "",
 ) -> str:
     canonical = _absolute_url(site_url, path)
+    extra_head_html = f"\n  {extra_head}" if extra_head else ""
     return f"""<!doctype html>
 <html lang="ko">
 <head>
@@ -296,7 +328,7 @@ def _page(
   <title>{html.escape(title)}</title>
   <meta name="description" content="{html.escape(description, quote=True)}">
   <link rel="canonical" href="{html.escape(canonical, quote=True)}">
-  <meta name="google-site-verification" content="{GOOGLE_VERIFICATION_TOKEN}">
+  <meta name="google-site-verification" content="{GOOGLE_VERIFICATION_TOKEN}">{extra_head_html}
   <style>{BASE_CSS}</style>
 </head>
 <body>
@@ -375,7 +407,7 @@ def _render_guide_page(guide: dict[str, Any], site_url: str) -> str:
 
 def render_home(events: list[dict[str, Any]], updated_at: str | None = None, site_url: str = DEFAULT_SITE_URL) -> str:
     updated_at = updated_at or date.today().isoformat()
-    enriched_events = _ensure_enriched(events)
+    enriched_events = _sort_events_for_display(_ensure_enriched(events))
     if enriched_events:
         cards = "\n".join(_render_event_card(event) for event in enriched_events[:24])
     else:
@@ -424,6 +456,22 @@ def render_home(events: list[dict[str, Any]], updated_at: str | None = None, sit
     return _page("주말아이 - 서울 아이랑 갈만한 무료 행사", body, site_url=site_url, path="/")
 
 
+def _event_badge_label(bucket: Any) -> str:
+    return {
+        "strong": "아이랑 핵심",
+        "broad": "가족 가능성",
+        "weak": "대상 확인 필요",
+    }.get(str(bucket), "대상 확인 필요")
+
+
+def _fee_badge_label(status: Any) -> str:
+    return {
+        "free": "무료 표시",
+        "paid_or_mixed": "요금 확인 필요",
+        "check_needed": "요금 확인 필요",
+    }.get(str(status), "요금 확인 필요")
+
+
 def _render_event_card(event: dict[str, Any]) -> str:
     title = html.escape(str(event.get("title", "제목 없음")))
     district = html.escape(str(event.get("district", "")))
@@ -433,9 +481,12 @@ def _render_event_card(event: dict[str, Any]) -> str:
     fee = html.escape(str(event.get("fee") or "공식 페이지 확인 필요"))
     detail_path = html.escape(str(event.get("_detail_path", "")), quote=True)
     official_url = html.escape(str(event.get("official_url", "")), quote=True)
+    relevance_badge = html.escape(_event_badge_label(event.get("relevance_bucket")))
+    fee_badge = html.escape(_fee_badge_label(event.get("fee_status")))
     title_html = f'<a href="{detail_path}">{title}</a>' if detail_path else title
     official_html = f' · <a href="{official_url}" rel="nofollow noopener">공식 페이지</a>' if official_url else ""
     return f"""<article class="card">
+  <p><span class="badge">{relevance_badge}</span> <span class="badge">{fee_badge}</span></p>
   <h3>{title_html}</h3>
   <p class="event-meta">{district} · {place}</p>
   <p class="muted">{date_text} · 비용: {fee}</p>
@@ -483,6 +534,28 @@ def _render_event_list_page(
     return _page(title, body, site_url=site_url, path=path, description=intro)
 
 
+def _render_visit_cautions(event: dict[str, Any]) -> str:
+    fee_notice = str(event.get("fee_notice") or "요금 정보는 공식 페이지에서 다시 확인해 주세요.")
+    if event.get("fee_status") == "free":
+        fee_notice = str(event.get("fee_notice") or "무료 표시가 있더라도 재료비·보호자 비용은 공식 페이지에서 다시 확인해 주세요.")
+    bucket = str(event.get("relevance_bucket", "weak"))
+    if bucket == "strong":
+        age_notice = "어린이·가족 키워드가 확인됩니다. 그래도 학년·나이·보호자 동반 조건은 공식 페이지에서 확인해 주세요."
+    elif bucket == "broad":
+        age_notice = "누구나 또는 전체 대상에 가까운 행사입니다. 아이 참여 가능 여부와 보호자 동반 조건을 공식 페이지에서 확인해 주세요."
+    else:
+        age_notice = "어린이·가족 대상인지 확인 필요합니다. 청소년·성인 중심 문구가 있으면 아이와 방문할 행사로 단정하지 않습니다."
+    reservation_notice = "공식 페이지에서 접수 중인지, 사전 예약인지 현장 접수인지 확인해 주세요."
+    return f"""<section class="card notice">
+    <h2>예약·요금·연령 확인</h2>
+    <ul>
+      <li><strong>예약 방식</strong>: {html.escape(reservation_notice)}</li>
+      <li><strong>요금 확인</strong>: {html.escape(fee_notice)}</li>
+      <li><strong>대상 연령</strong>: {html.escape(age_notice)}</li>
+    </ul>
+  </section>"""
+
+
 def _render_event_detail(event: dict[str, Any], *, updated_at: str, site_url: str) -> str:
     title = str(event.get("title", "행사 상세"))
     path = str(event.get("_detail_path", "/events/"))
@@ -521,6 +594,7 @@ def _render_event_detail(event: dict[str, Any], *, updated_at: str, site_url: st
     <dl class="detail-list">{detail_html}</dl>
     {official_link}
   </section>
+  {_render_visit_cautions(event)}
   <section class="card notice">
     <h2>방문 전 3분 체크</h2>
     <p>일정, 비용, 예약 가능 여부, 대상 연령은 변경될 수 있습니다. 아이와 방문하기 전 공식 페이지 또는 운영기관 안내를 다시 확인해 주세요.</p>
@@ -552,8 +626,9 @@ def _render_contact(site_url: str) -> str:
 <main>
   <section class="card">
     <p>행사 정보가 공식 페이지와 다르거나 종료된 행사가 노출되는 경우, 정보 정정이 필요합니다.</p>
-    <p>현재 주말아이는 초기 운영 단계라 별도 회원 기능을 제공하지 않습니다. 정보 정정, 제휴가 아닌 일반 문의, 데이터 출처 관련 요청은 사이트 운영자가 확인해 반영합니다.</p>
-    <p class="muted">문의 시 행사명, 공식 페이지 주소, 수정이 필요한 내용을 함께 남기면 더 빠르게 확인할 수 있습니다.</p>
+    <p>공개 문의 채널: <a href="mailto:thk8544@gmail.com">thk8544@gmail.com</a></p>
+    <p>정보 정정 요청 시 행사명, 공식 페이지 주소, 수정이 필요한 내용을 함께 보내 주세요. 공식 페이지를 기준으로 확인하고 애매한 항목은 확인 필요로 낮춰 표시합니다.</p>
+    <p class="muted">현재 주말아이는 초기 운영 단계라 별도 회원 기능을 제공하지 않습니다. 광고·제휴·개인정보 관련 문의도 위 이메일로 받을 수 있습니다.</p>
   </section>
 </main>
 """
@@ -571,6 +646,8 @@ def _render_sources(site_url: str) -> str:
     <p>어린이, 아동, 유아, 초등, 가족 등 아이와 함께 방문할 가능성이 높은 키워드가 있는 행사를 우선 선별합니다. 요금란에 금액이 명확히 표시된 행사는 무료 행사로 단정하지 않습니다.</p>
     <h2>업데이트 주기</h2>
     <p>사이트는 자동 수집과 정적 페이지 생성을 전제로 운영됩니다. 데이터가 갱신되면 지난 행사는 제외하고, 새 행사와 변경된 공식 링크를 반영합니다.</p>
+    <h2>오분류 정정 원칙</h2>
+    <p>무료 표시와 금액 문구가 충돌하거나, 청소년·성인 중심 문구가 어린이 행사처럼 보이는 경우 보수적으로 낮춰 표시합니다. 운영 중 발견한 오분류는 공식 페이지를 기준으로 고치고, 애매한 항목은 확인 필요로 안내합니다.</p>
     <h2>주의 사항</h2>
     <p>공공데이터의 무료 여부, 예약 가능 여부, 대상 연령은 실제 운영기관 공지와 다를 수 있습니다. 주말아이는 탐색을 돕는 정보 사이트이며, 최종 방문 결정 전에는 공식 페이지 확인이 필요합니다.</p>
   </section>
@@ -592,6 +669,32 @@ def _render_privacy(site_url: str) -> str:
 </main>
 """
     return _page("개인정보처리방침 - 주말아이", body, site_url=site_url, path="/privacy/", description="주말아이의 개인정보 수집 여부와 광고·분석 도구 사용 가능성을 안내합니다.")
+
+
+def _render_not_found(site_url: str) -> str:
+    body = """
+<header class="hero"><span class="badge">404</span><h1>페이지를 찾을 수 없습니다</h1></header>
+<main>
+  <section class="card">
+    <p>주소가 바뀌었거나 아직 생성되지 않은 주말아이 페이지입니다. 홈으로 자동 이동하지 않고, 찾을 수 없는 페이지임을 명확히 안내합니다.</p>
+    <p>아래 페이지에서 현재 확인 가능한 서울 어린이·가족 행사를 다시 찾아보세요.</p>
+    <ul class="pill-list">
+      <li><a href="/">홈으로 가기</a></li>
+      <li><a href="/seoul/free/">서울 무료 행사</a></li>
+      <li><a href="/seoul/this-weekend/">이번 주말 행사</a></li>
+      <li><a href="/sources/">데이터 출처</a></li>
+    </ul>
+  </section>
+</main>
+"""
+    return _page(
+        "페이지를 찾을 수 없습니다 - 주말아이",
+        body,
+        site_url=site_url,
+        path="/404.html",
+        description="주말아이 404 안내 페이지입니다.",
+        extra_head='<meta name="robots" content="noindex">',
+    )
 
 
 def _write_page(out_path: Path, path: str, content: str) -> None:
@@ -670,8 +773,10 @@ def build_site(events: list[dict[str, Any]], out_dir: str | Path = "public", upd
     out_path.mkdir(parents=True, exist_ok=True)
     (out_path / BUILD_MARKER).write_text("generated by jumali site builder\n", encoding="utf-8")
     updated_at = updated_at or date.today().isoformat()
-    enriched_events = _ensure_enriched(events)
+    enriched_events = _sort_events_for_display(_ensure_enriched(events))
     generated_paths: list[str] = []
+
+    (out_path / "404.html").write_text(_render_not_found(site_url), encoding="utf-8")
 
     _write_page(out_path, "/", render_home(enriched_events, updated_at=updated_at, site_url=site_url))
     generated_paths.append("/")
